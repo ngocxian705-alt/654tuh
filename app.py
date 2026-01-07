@@ -95,8 +95,7 @@ class SimpleAPI:
             return {"status": "success", "data": status_data}
             
         except Exception as e:
-            return {"status": "error", "message": f" Lỗi khi lấy trạng thái" : {str(e)}"}
-
+            return {"status": "error", "message": f" Lỗi khi lấy trạng thái: {str(e)}"}
 def spam_worker(target_id, duration_minutes=None):
     print(f" Bắt đầu spam vào mục tiêu: {target_id}" + (f" لمدة {duration_minutes} Phút" if duration_minutes else ""))
     
