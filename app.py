@@ -78,7 +78,7 @@ class SimpleAPI:
                         elapsed = datetime.now() - info['start_time']
                         remaining = info['duration'] * 60 - elapsed.total_seconds()
                         if remaining > 0:
-                            duration_info = f" ({int(remaining/60)} دقيقة متبقية)"
+                            duration_info = f" ({int(remaining/60)} 1 phút còn lại)"
                     active_targets_info.append(f"{target_id}{duration_info}")
                     
             with connected_clients_lock:
@@ -95,10 +95,10 @@ class SimpleAPI:
             return {"status": "success", "data": status_data}
             
         except Exception as e:
-            return {"status": "error", "message": f" خطأ في الحصول على الحالة: {str(e)}"}
+            return {"status": "error", "message": f" Lỗi khi lấy trạng thái" : {str(e)}"}
 
 def spam_worker(target_id, duration_minutes=None):
-    print(f" بدء السبام على الهدف: {target_id}" + (f" لمدة {duration_minutes} دقيقة" if duration_minutes else ""))
+    print(f" Bắt đầu spam vào mục tiêu: {target_id}" + (f" لمدة {duration_minutes} Phút" if duration_minutes else ""))
     
     start_time = datetime.now()
     
@@ -120,7 +120,7 @@ def spam_worker(target_id, duration_minutes=None):
             send_spam_from_all_accounts(target_id)
             time.sleep(0.1)  
         except Exception as e:
-            print(f" خطأ في السبام على {target_id}: {e}")
+            print(f" Lỗi khi spam {target_id}: {e}")
             time.sleep(1)
 
 def send_spam_from_all_accounts(target_id):
@@ -134,15 +134,15 @@ def send_spam_from_all_accounts(target_id):
                     
                     try:
                         client.CliEnts2.send(openroom(client.key, client.iv))
-                        print(f" فتح الروم من الحساب: {account_id}")
+                        print(f"Lỗi khi spam: {account_id}")
                     except Exception as e:
-                        print(f" خطأ في فتح الروم من الحساب {account_id}: {e}")
+                        print(f"Lỗi khi mở Từ tài khoản {account_id}: {e}
                     
                     
                     for i in range(10):  
                         try:
                             client.CliEnts2.send(spmroom(client.key, client.iv, target_id))
-                            print(f" إرسال سبام من الحساب {account_id} إلى {target_id} - المحاولة {i+1}")
+                            print(f" Gửi spam Từ tài khoản {account_id} إلى {target_id} - Nỗ lực {i+1}")
                         except (BrokenPipeError, ConnectionResetError, OSError) as e:
                             print(f" خطأ اتصال للحساب {account_id}: {e}")
                             break
@@ -198,21 +198,21 @@ def get_accounts():
         return jsonify({"status": "success", "data": accounts_data})
         
     except Exception as e:
-        return jsonify({"status": "error", "message": f" خطأ في الحصول على الحسابات: {str(e)}"})
+        return jsonify({"status": "error", "message": f" Lỗi khi lấy tài khoản: {str(e)}"})
 
 @app.route('/')
 def home():
     
     return """
-    <h1> نظام إدارة السبام (الإصدار المحدث)</h1>
-    <p>Endpoints المتاحة:</p>
+    <h1> Hệ thống quản lý spam (phiên bản cập nhật))</h1>
+    <p>Endpoints Có sẵn:</p>
     <ul>
-        <li><strong>بدء السبام:</strong> GET /spam?user_id=123456789&amp;duration=5 (duration اختياري - بالدقائق)</li>
-        <li><strong>إيقاف السبام:</strong> GET /stop?user_id=123456789</li>
-        <li><strong>حالة النظام:</strong> GET /status</li>
-        <li><strong>الحسابات المتصلة:</strong> GET /accounts</li>
+        <li><strong>Bắt đầu spam:</strong> GET /spam?user_id=123456789&amp;duration=5 (duration Tùy chọn - Tính theo phút)</li>
+        <li><strong>Dừng spam:</strong> GET /stop?user_id=123456789</li>
+        <li><strong>Trạng thái hệ thống:</strong> GET /status</li>
+        <li><strong>Các tài khoản đang kết nối:</strong> GET /accounts</li>
     </ul>
-    <p><strong>ملاحظة:</strong> النظام المحدث يقوم بفتح روم أولاً ثم إرسال السبام عبر جميع الحسابات.</p>
+    <p><strong>Ghi chú:</strong> Hệ thống cập nhật đang chạy Mở phòng trước, sau đó gửi spam qua tất cả Tài khoản.</p>
     """
 
 def AuTo_ResTartinG():
