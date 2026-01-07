@@ -32,7 +32,7 @@ class SimpleAPI:
     def process_spam_command(self, target_id, duration_minutes=None):
         try:
             if not ChEck_Commande(target_id):
-                return {"status": "error", "message": " user_id غير صالح"}
+                return {"status": "error", "message": " user_id Không hợp lệ"}
                 
             
             with active_spam_lock:
